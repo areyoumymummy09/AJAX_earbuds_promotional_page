@@ -132,3 +132,13 @@
   model-viewer>#ar-prompt>img {
     animation: circle 4s linear infinite;
   }
+
+
+  #loader {
+    max-width: 100px;
+  }
+  
+  #loader.hidden {
+    display: none;
+  }
+  

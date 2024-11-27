@@ -1,14 +1,14 @@
-# AJAX_earbuds_promotional_page
-Using all the concepts covered so far—SASS, AJAX, the template element, and the Fetch API—to make the Earbuds Model Page dynamic. An API link will be provided, outputting information about the earbuds in JSON format. You will use the Fetch API to retrieve this data on page load and update the view as the user interacts with the hotspots.
+# Elaine_Lai_portfolio
 
+A personal website built to demonstrate my web development skills from classes using HTML, CSS, and JavaScript. This project showcases my portfolio, projects, and coding expertise.
 
 ## Installation
 
-TODO: Describe the installation process
+No installation is required. Simply download the files.
 
 ## Usage
 
-TODO: Write usage instructions
+Open the index file in your browser of choice.
 
 ## Contributing
 
@@ -20,12 +20,14 @@ TODO: Write usage instructions
 
 ## History
 
-TODO: Write history
+4 October 2024
 
 ## Credits
 
-Lai Yi Ting ELaine
+Creator:
+
+YiTing Lai Elaine
 
 ## License
 
-MIT license
+MIT - see license file for more information.

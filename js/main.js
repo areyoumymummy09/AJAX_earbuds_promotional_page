@@ -2,83 +2,63 @@
 
   //variables
   const hotspots = document.querySelectorAll(".Hotspot");
-
   const materialTemplate = document.querySelector("#material-template");
   const materialList = document.querySelector ("#material-list");
+  const loader = document.querySelector("#loader");
 
   //This information needs to be removed then pulled with an AJAX Call using the Fetch API
   //this is the api url https://swiftpixel.com/earbud/api/infoboxes"
-
-  const infoBoxes = [
-    {
-      title: 'Noise-cancelling microphones',
-      text: 'Noise-cancelling microphones and a rear copper shield are optimally placed to quickly detect outside noises, working together to counter noise before it disturbs your experience.',
-      image: 'images/ear-piece.jpg'
-    },
-    {
-      title: 'Comfortable fit',
-      text: 'Three pairs of ultra comfortable silicone tips are included. The tips create an acoustic seal that blocks outside audio and secures the earbuds in place.',
-      image: 'images/ear-piece.jpg'
-    },
-    {
-      title: '360 AUDIO',
-      text: '360 Audio places sound all around you, while Dolby Head Tracking™ technology delivers an incredible three-dimensional listening experience.',
-      image: 'images/ear-piece.jpg'
-    },
-    {
-      title: 'Ultra Fast Charging',
-      text: 'Charge your earbuds in 30 minutes or less with our hyper charging technology.',
-      image: 'images/ear-piece.jpg'
-    },
-  ];
-
-  //This information needs to be removed then pulled with an AJAX Call using the Fetch API
-  //this is the api url https://swiftpixel.com/earbud/api/materials"
-
-  const materialListData = [
-    {
-      heading: "Precision-Crafted Polymers",
-      description: "Our earbuds are meticulously molded from high-quality plastics, ensuring a blend of elegance, comfort, and resilience that's second to none."
-    },
-    {
-      heading: "Luxurious Silicone Harmony",
-      description: "Our uniquely engineered ear tips are cocooned in plush silicone, delivering an opulent embrace for your ears, ensuring an unrivaled fit and exquisite audio experience."
-    },
-    {
-      heading: "Rubberized Cables",
-      description: "Experience the unparalleled freedom of movement with our flexible rubber cables that promise durability without compromise."
-    },
-    {
-      heading: "Enhanced Comfort Sensors",
-      description: "A touch of magic in the form of built-in microphones and sensors empowers your earbuds to obey your every command, making your audio journey seamless and enchanting."
-    },
-    {
-      heading: "Artistic Mesh Guard",
-      description: "Shielded by artful mesh screens, our speakers remain untarnished, keeping your listening experience pristine."
-    }
-  ];
-
+  
   //functions
   function loadInfoBoxes() {
+    loader.classList.toggle("hidden");
+    fetch("https://swiftpixel.com/earbud/api/infoboxes")
+    .then(response => response.json())
+    .then(infoBoxes => {
+      infoBoxes.forEach((infoBox, index) => {
+        let selected = document.querySelector(`#hotspot-${index + 1}`);
+  
+        const titleElement = document.createElement('h2');
+        titleElement.textContent = infoBox.heading;
+  
+        const textElement = document.createElement('p');
+        textElement.textContent = infoBox.description;
+  
+        selected.appendChild(titleElement);
+        selected.appendChild(textElement);
+        loader.classList.toggle("hidden");
+      });
+   
+    })
+    .catch(error => {
+      console.log(error);
+    
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "Oops, something went wrong!";
 
-    //make AJAX call here
+      // Style the background of the error message
+  errorMessage.style.backgroundColor = "#E89B36"; // Light red background
+  errorMessage.style.padding = "10px"; // Add some padding
+  errorMessage.style.borderRadius = "5px"; // Rounded corners
+  errorMessage.style.textAlign = "center"; // Center the text
 
-    infoBoxes.forEach((infoBox, index) => {
-      let selected = document.querySelector(`#hotspot-${index + 1}`);
-
-      const titleElement = document.createElement('h2');
-      titleElement.textContent = infoBox.title;
-
-      const textElement = document.createElement('p');
-      textElement.textContent = infoBox.text;
-
-      selected.appendChild(titleElement);
-      selected.appendChild(textElement);
+    
+      // Append the error message to the first hotspot, if it exists
+      if (hotspots.length > 0) {
+        hotspots[0].appendChild(errorMessage); 
+      } else {
+        console.error("No hotspots available to display the error message.");
+      }
     });
+    
   }
-  loadInfoBoxes();
+loadInfoBoxes();
 
-  function loadMaterialInfo(){
+function loadMaterialInfo(){
+  loader.classList.toggle("hidden");
+  fetch("https://swiftpixel.com/earbud/api/infoboxes")
+  .then(response =>response.json()) 
+  .then(materialListData => {
     materialListData.forEach(material => {
       //clone the template
       const clone = materialTemplate.content.cloneNode(true);
@@ -91,9 +71,21 @@
 
       materialList.appendChild(clone);
     })
+    loader.classList.add("hidden");
+  })
+  .catch(error => {
+    console.error(error);
 
-  }
-
+    // Create an error message element
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = "Oops, something went wrong. Unable to load material information.";
+    
+    // Append the error message to the materialList
+    materialList.innerHTML = ""; // Clear any existing content
+    materialList.appendChild(errorMessage);
+    loader.classList.remove("hidden");
+  });
+}
   loadMaterialInfo();
 
   function showInfo() {
@@ -114,4 +106,3 @@
   });
 
 })();
-
